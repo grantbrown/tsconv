@@ -1,0 +1,11 @@
+Package: tsconv
+Type: Package
+Title: Time series image analysis
+Version: 0.1
+Date: 2015-06-07
+Author: Grant Brown
+Maintainer: Grant Brown <grant.brown73@gmail.com>
+Description: Time series image analysis
+License: GPL (>= 3)
+Imports: methods, Rcpp (>= 0.11.6)
+LinkingTo: Rcpp, RcppEigen

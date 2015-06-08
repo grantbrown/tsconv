@@ -1,0 +1,3 @@
+useDynLib(tsconv)
+exportPattern("^[[:alpha:]]+")
+import(methods, Rcpp)
