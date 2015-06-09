@@ -136,6 +136,11 @@ void OCLProvider::setDevice(int platformId, int deviceId)
     }
 }
 
+cl::Kernel OCLProvider::buildKernel(std::string kernelStr)
+{
+    return(buildProgramForKernel(kernelStr, *currentDevice));
+}
+
 // TODO: accept std::string kernel directly, store as R data
 cl::Kernel OCLProvider::buildProgramForKernel(std::string kernelString, DeviceContainer* device)
 {

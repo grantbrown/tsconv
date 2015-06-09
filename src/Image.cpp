@@ -1,11 +1,22 @@
 #include <Rcpp.h>
 #include "Image.hpp"
+#include "OCLProvider.hpp"
 using namespace Rcpp;
 using namespace tsconv;
 
-Image::Image(SEXP data)
+Image::Image(SEXP data, SEXP rotKernel)
 {
     Rcpp::NumericMatrix inData(data);
+    std::string rotationKernel = Rcpp::as<std::string>(rotKernel);
+    oclProvider = new OCLProvider(1);
+    try
+    {
+        cl::Kernel compiledRotationKernel = oclProvider -> buildKernel(rotationKernel); 
+    }
+    catch (int e)
+    {
+        Rcpp::Rcerr << "Couldn't build kernel.\n";
+    }
     imageData = new Eigen::MatrixXi(inData.nrow(), inData.ncol());
     int i, j;
 
@@ -39,6 +50,7 @@ void Image::rotate(double theta)
 Image::~Image()
 {
     delete imageData;
+    delete oclProvider;
 }
 
 RCPP_MODULE(mod_Image)
@@ -46,7 +58,7 @@ RCPP_MODULE(mod_Image)
     using namespace Rcpp;
     using namespace tsconv;
     class_<Image>( "Image" )
-    .constructor<SEXP>()
+    .constructor<SEXP, SEXP>()
     .method("rotate", &Image::rotate)
     .property("data", &Image::getImage);
 }

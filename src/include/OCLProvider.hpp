@@ -36,6 +36,7 @@ namespace tsconv
             OCLProvider(int verbose);
             void setDevice(int platformId, int deviceId);
             void printSummary();
+            cl::Kernel buildKernel(std::string kernelStr);
             ~OCLProvider();
 
             // Kernels

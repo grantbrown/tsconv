@@ -7,16 +7,17 @@
 using namespace Rcpp;
 namespace tsconv
 {
-
+class OCLProvider;
 class Image
 {
     public:
-        Image(SEXP data);
+        Image(SEXP data, SEXP rotationKernel);
         void rotate(double theta);
         Rcpp::NumericMatrix getImage();
         ~Image();
     private:
         Eigen::MatrixXi* imageData;
+        OCLProvider* oclProvider;
 
 };
 
